@@ -66,8 +66,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Ref EnvironmentN
-          e
+          Value: !Ref EnvironmentName
 
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
@@ -213,45 +212,6 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
 
-  UdacityS3ReadOnlyEC2:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub ${EnvironmentName}-Role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: "/"
-
-  RolePolicies:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: AmazonS3ReadOnlyAccess
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Action:
-              - s3:Get*
-              - s3:List*
-            Resource:
-              - arn:aws:s3:::udacity-demo-1
-              - arn:aws:s3:::udacity-demo-1/*
-      Roles:
-        - Ref: UdacityS3ReadOnlyEC2
-
-  ProfileWithRolesForOurApp:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: "/"
-      Roles:
-        - UdacityS3ReadOnlyEC2
-
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -288,7 +248,6 @@ Resources:
           ToPort: 65535
           CidrIp: 0.0.0.0/0
 
-
   WebAppLaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
@@ -308,7 +267,6 @@ Resources:
         - DeviceName: "/dev/sdk"
           Ebs:
             VolumeSize: "10"
-      IamInstanceProfile: !Ref ProfileWithRolesForOurApp
 
   WebAppGroup:
     Type: AWS::AutoScaling::AutoScalingGroup

@@ -9,3 +9,6 @@ Students have to write the CloudFormation code using this YAML template for buil
 Students may use a JSON file for increasing the generic nature of the YAML code. For example, the JSON file contains a "ParameterKey" as "EnvironmentName" and "ParameterValue" as "UdacityProject". 
 
 In YAML code, the `${EnvironmentName}` would be substituted with `UdacityProject` accordingly.
+
+#### DNS URL :
+http://udagr-webap-1hekt0c3ks3fc-2125645884.us-east-1.elb.amazonaws.com/ 
